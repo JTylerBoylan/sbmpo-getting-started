@@ -1,15 +1,15 @@
 # sbmpo-getting-started
 
-# Dependencies
+## Dependencies
 - CMake 3.5
 - C++ 14
 
-# Installation
+## Installation
 ```
 git clone https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
 ```
 
-# Building
+## Building
 In `my_project_ws`:
 ```
 mkdir build
