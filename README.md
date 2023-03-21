@@ -10,6 +10,7 @@ CMake project template for [Sample Based Model Predictive Optimization (SBMPO) f
 To begin, clone this workspace to your directory of choice and pull down the sbmpo submodule using the following commands:
 ```
 git clone https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
+cd my_project_ws
 git submodule update --init
 ```
 
