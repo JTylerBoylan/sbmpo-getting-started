@@ -12,7 +12,7 @@ class MyCustomModel : public Model {
     public:
 
     // States of the Model
-    enum States {X, Y, Z, R, P, Y};
+    enum States {X, Y, Z, R, P, W};
 
     // Controls of the Model
     enum Controls {U1, U2, U3};
