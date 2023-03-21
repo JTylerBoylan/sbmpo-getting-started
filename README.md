@@ -118,3 +118,39 @@ class MyCustomDoubleIntegratorModel : public DoubleIntegratorModel {
 
 ## Using SBMPO Benchmarking
 
+You can use the `sbmpo_benchmarking` package to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
+
+You can access this package by switching sbmpo to the `benchmarking` branch, using the following commands:
+```
+cd my_project_ws/sbmpo
+git checkout benchmarking
+```
+
+You can create benchmarking configuration files for your model using the sbmpo_config MATLAB function found in [`sbmpo/sbmpo_benchmarking/matlab`](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking/sbmpo_benchmarking/matlab) by passing in a csv folder, SBMPO params, and number of runs for the parameter set.
+
+To run the benchmarker, include the basic benchmarking class in your source, create a benchmarking object with the path to the folder containing your csv config file, and then run the benchmarker. This will look something like this:
+```
+#include <my_project/MyCustomModel.hpp>
+#include <sbmpo_benchmarking/benchmark.hpp>
+
+int main (int argc, char ** argv) {
+
+    // Path to csv workspace
+    std::string csv_folder = "/path/to/my_project_ws/my_project/csv/";
+
+    // Create instance of your model
+    my_namespace::MyCustomModel myModel;
+
+    // Create new benchmarker
+    sbmpo_benchmarking::Benchmark benchmarker(csv_folder);
+
+    // Run benchmark on the model (saves results to csv_folder)
+    benchmarker.benchmark(myModel);
+
+    return 0;
+}
+```
+
+Other benchmarkers available in the `sbmpo_benchmarking` package, such as the [`Obstacles2D`](https://github.com/JTylerBoylan/sbmpo/blob/benchmarking/sbmpo_benchmarking/include/sbmpo_benchmarking/benchmarks/Obstacles2D.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
+
+More information can be found in the [SBMPO benchmarking branch](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking).
