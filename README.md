@@ -72,5 +72,49 @@ If you get segmentation faults during your run, you might want to check that you
 
 ## Using SBMPO Models
 
+If you want to use one of the models defined in the `sbmpo_models` package as a template for your model, you can do that simply by setting it as the base class for your custom model. The template models are set up so the functions can be overriden by a child class. This is useful if you only need to make minor changes to a template model.
+
+For example, if you wanted to make a custom double integrator model that has bounds on the maximum velocity, it could be done as follows:
+```
+#ifndef MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
+#define MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
+
+#include <sbmpo_models/DoubleIntegrator.hpp>
+
+namespace my_namespace {
+
+using namespace sbmpo_models;
+using namespace sbmpo;
+
+class MyCustomDoubleIntegratorModel : public DoubleIntegratorModel {
+
+  public:
+  
+  // Custom constructor
+  MyCustomDoubleIntegratorModel() {
+    v_lim_ = 10.0f; // Limit velocity to 10
+  }
+  
+  // Overriding the is_valid function
+  bool is_valid(const State& state) override {
+    return std::abs(state[V]) < v_lim_;
+  }
+  
+  // Setter method
+  void set_velocity_limit(float v_lim) {
+    v_lim_ = v_lim;
+  }
+  
+  private:
+  
+  float v_lim_;
+
+};
+
+}
+
+#endif
+```
+
 ## Using SBMPO Benchmarking
 
