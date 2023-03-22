@@ -10,6 +10,7 @@ CMake project template for [Sample Based Model Predictive Optimization (SBMPO) f
 To begin, clone this workspace to your directory of choice and pull down the sbmpo submodule using the following commands:
 ```
 git clone https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
+cd my_project_ws
 git submodule update --init
 ```
 
@@ -71,5 +72,85 @@ If you get segmentation faults during your run, you might want to check that you
 
 ## Using SBMPO Models
 
+If you want to use one of the models defined in the `sbmpo_models` package as a template for your model, you can do that simply by setting it as the base class for your custom model. The template models are set up so the functions can be overriden by a child class. This is useful if you only need to make minor changes to a template model.
+
+For example, if you wanted to make a custom double integrator model that has bounds on the maximum velocity, it could be done as follows:
+```
+#ifndef MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
+#define MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
+
+#include <sbmpo_models/DoubleIntegrator.hpp>
+
+namespace my_namespace {
+
+using namespace sbmpo_models;
+using namespace sbmpo;
+
+class MyCustomDoubleIntegratorModel : public DoubleIntegratorModel {
+
+  public:
+  
+  // Custom constructor
+  MyCustomDoubleIntegratorModel() {
+    v_lim_ = 10.0f; // Limit velocity to 10
+  }
+  
+  // Overriding the is_valid function
+  bool is_valid(const State& state) override {
+    return std::abs(state[V]) < v_lim_;
+  }
+  
+  // Setter method
+  void set_velocity_limit(float v_lim) {
+    v_lim_ = v_lim;
+  }
+  
+  private:
+  
+  float v_lim_;
+
+};
+
+}
+
+#endif
+```
+
 ## Using SBMPO Benchmarking
 
+You can use the `sbmpo_benchmarking` package to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
+
+You can access this package by switching sbmpo to the `benchmarking` branch, using the following commands:
+```
+cd my_project_ws/sbmpo
+git checkout benchmarking
+```
+
+You can create benchmarking configuration files for your model using the sbmpo_config MATLAB function found in [`sbmpo/sbmpo_benchmarking/matlab`](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking/sbmpo_benchmarking/matlab) by passing in a csv folder, SBMPO params, and number of runs for the parameter set.
+
+To run the benchmarker, include the basic benchmarking class in your source, create a benchmarking object with the path to the folder containing your csv config file, and then run the benchmarker. This will look something like this:
+```
+#include <my_project/MyCustomModel.hpp>
+#include <sbmpo_benchmarking/benchmark.hpp>
+
+int main (int argc, char ** argv) {
+
+    // Path to csv workspace
+    std::string csv_folder = "/path/to/my_project_ws/my_project/csv/";
+
+    // Create instance of your model
+    my_namespace::MyCustomModel myModel;
+
+    // Create new benchmarker
+    sbmpo_benchmarking::Benchmark benchmarker(csv_folder);
+
+    // Run benchmark on the model (saves results to csv_folder)
+    benchmarker.benchmark(myModel);
+
+    return 0;
+}
+```
+
+Other benchmarkers available in the `sbmpo_benchmarking` package, such as the [`Obstacles2D`](https://github.com/JTylerBoylan/sbmpo/blob/benchmarking/sbmpo_benchmarking/include/sbmpo_benchmarking/benchmarks/Obstacles2D.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
+
+More information can be found in the [SBMPO benchmarking branch](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking).
