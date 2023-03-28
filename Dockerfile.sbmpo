@@ -6,9 +6,7 @@ RUN apt-get update && \
     apt-get install -y \
         build-essential \
         cmake \
-        gdb \
-        libssl-dev \
-        libboost-all-dev
+        gdb
 
 # Set the working directory to /app
 WORKDIR /sbmpo_ws
