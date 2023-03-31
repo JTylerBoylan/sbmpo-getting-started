@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(my_project)
 
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+
 include_directories(include)
 
 # Add the executable
