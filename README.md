@@ -3,15 +3,14 @@
 CMake project template for [Sample Based Model Predictive Optimization (SBMPO) for robot trajectory planning](https://github.com/JTylerBoylan/sbmpo).
 
 ## Dependencies
-- [CMake 3.5](https://cmake.org/install/) or later
+- [CMake 3.15](https://cmake.org/install/) or later
 - [GCC 6.1](https://gcc.gnu.org/) or later
 
 ## Installation
 To begin, clone this workspace to your directory of choice and pull down the sbmpo submodule using the following commands:
 ```
-git clone https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
+git clone --recursive https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
 cd my_project_ws
-git submodule update --init
 ```
 
 ## Creating a custom model
@@ -72,14 +71,14 @@ If you get segmentation faults during your run, you might want to check that you
 
 ## Using SBMPO Models
 
-If you want to use one of the models defined in the `sbmpo_models` package as a template for your model, you can do that simply by setting it as the base class for your custom model. The template models are set up so the functions can be overriden by a child class. This is useful if you only need to make minor changes to a template model.
+If you want to use one of the models defined in the `sbmpo/models` folder as a template for your model, you can do that simply by setting it as the base class for your custom model. The template models are set up so the functions can be overriden by a child class. This is useful if you only need to make minor changes to a template model.
 
 For example, if you wanted to make a custom double integrator model that has bounds on the maximum velocity, it could be done as follows:
 ```
 #ifndef MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
 #define MY_CUSTOM_DOUBLE_INTEGRATOR_HPP_
 
-#include <sbmpo_models/DoubleIntegrator.hpp>
+#include <sbmpo/models/DoubleIntegrator.hpp>
 
 namespace my_namespace {
 
@@ -116,22 +115,16 @@ class MyCustomDoubleIntegratorModel : public DoubleIntegratorModel {
 #endif
 ```
 
-## Using SBMPO Benchmarking
+## Using SBMPO Benchmarks
 
-You can use the `sbmpo_benchmarking` package to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
+You can use the `sbmpo/tools/benchmark.hpp` tool to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
 
-You can access this package by switching sbmpo to the `benchmarking` branch, using the following commands:
-```
-cd my_project_ws/sbmpo
-git checkout benchmarking
-```
-
-You can create benchmarking configuration files for your model using the sbmpo_config MATLAB function found in [`sbmpo/sbmpo_benchmarking/matlab`](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking/sbmpo_benchmarking/matlab) by passing in a csv folder, SBMPO params, and number of runs for the parameter set.
+You can create benchmarking configuration files for your model using the sbmpo_config MATLAB function found in [`sbmpo/matlab/`](https://github.com/JTylerBoylan/sbmpo/tree/main/matlab) by passing in a csv folder, SBMPO params, and number of runs for the parameter set.
 
 To run the benchmarker, include the basic benchmarking class in your source, create a benchmarking object with the path to the folder containing your csv config file, and then run the benchmarker. This will look something like this:
 ```
 #include <my_project/MyCustomModel.hpp>
-#include <sbmpo_benchmarking/benchmark.hpp>
+#include <sbmpo/tools/benchmark.hpp>
 
 int main (int argc, char ** argv) {
 
@@ -151,6 +144,4 @@ int main (int argc, char ** argv) {
 }
 ```
 
-Other benchmarkers available in the `sbmpo_benchmarking` package, such as the [`Obstacles2D`](https://github.com/JTylerBoylan/sbmpo/blob/benchmarking/sbmpo_benchmarking/include/sbmpo_benchmarking/benchmarks/Obstacles2D.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
-
-More information can be found in the [SBMPO benchmarking branch](https://github.com/JTylerBoylan/sbmpo/tree/benchmarking).
+Other benchmarkers available in the `sbmpo/tools/benchmarks/` folder, such as the [`Obstacles2D`](https://github.com/JTylerBoylan/sbmpo/blob/main/include/sbmpo/tools/benchmarks/Obstacles2D.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
