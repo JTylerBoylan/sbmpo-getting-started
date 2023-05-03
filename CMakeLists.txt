@@ -7,7 +7,7 @@ endif()
 project(sbmpo_getting_started)
 
 if (NOT CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD 20)
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX)
