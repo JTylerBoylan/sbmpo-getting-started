@@ -117,14 +117,14 @@ class MyCustomDoubleIntegratorModel : public DoubleIntegratorModel {
 
 ## Using SBMPO Benchmarks
 
-You can use the `sbmpo/benchmark/Benchmark.hpp` tool to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
+You can use the `sbmpo/benchmarks/Benchmark.hpp` tool to compare different SBMPO parameters on your model. This is useful in determining optimal parameters, such as grid resolution, sample time, and/or branchout factors. 
 
 You can create benchmarking configuration files for your model using the sbmpo_config MATLAB function found in [`sbmpo/matlab/`](https://github.com/JTylerBoylan/sbmpo/tree/main/matlab) by passing in a csv folder, SBMPO params, and number of runs for the parameter set.
 
 To run the benchmarker, include the basic benchmarking class in your source, create a benchmarking object with the path to the folder containing your csv config file, and then run the benchmarker. This will look something like this:
 ```
 #include <my_project/MyCustomModel.hpp>
-#include <sbmpo/benchmark/Benchmark.hpp>
+#include <sbmpo/benchmarks/Benchmark.hpp>
 
 using namespace my_namespace;
 
@@ -134,7 +134,7 @@ int main (int argc, char ** argv) {
     std::string csv_folder = "/path/to/my_project_ws/my_project/csv/";
 
     // Create new benchmarker
-    sbmpo_benchmark::Benchmark<MyCustomModel> benchmarker(csv_folder);
+    sbmpo_benchmarks::Benchmark<MyCustomModel> benchmarker(csv_folder);
 
     // Run benchmark on the model (saves results to csv_folder)
     benchmarker.benchmark();
@@ -143,4 +143,4 @@ int main (int argc, char ** argv) {
 }
 ```
 
-Other benchmarkers available in the `sbmpo/benchmark/` folder, such as the [`Obstacles2DBenchmark`](https://github.com/JTylerBoylan/sbmpo/blob/main/include/sbmpo/benchmark/Obstacles2DBenchmark.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
+Other benchmarkers available in the `sbmpo/benchmarks/` folder, such as the [`Obstacles2DBenchmark`](https://github.com/JTylerBoylan/sbmpo/blob/main/include/sbmpo/benchmarks/Obstacles2DBenchmark.hpp) benchmarker that can be used to compare plans around various sets of obstacles in 2D space.
