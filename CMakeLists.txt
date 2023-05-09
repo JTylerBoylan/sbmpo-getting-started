@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 if(NOT CMAKE_CXX_COMPILER)
-    set(CMAKE_CXX_COMPILER "/usr/bin/gcc")
+    set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 endif()
 
 project(sbmpo_getting_started)

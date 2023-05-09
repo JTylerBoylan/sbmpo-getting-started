@@ -1,8 +1,10 @@
 #ifndef MY_CUSTOM_MODEL_HPP_
 #define MY_CUSTOM_MODEL_HPP_
 
-#include <array>
-#include <sbmpo/model.hpp>
+#include <sbmpo/types/types.hpp>
+#include <sbmpo/types/Model.hpp>
+
+#include <math.h>
 
 namespace my_namespace {
 
