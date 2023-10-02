@@ -28,7 +28,7 @@ class MyCustomModel : public Model {
     }
 
     // Evaluate a node with a control
-    virtual State next_state(const State &state, const Control& control, const float time_span) {
+    State next_state(const State &state, const Control& control, const float time_span) override {
 
         /*
             Dynamics of the system
@@ -43,7 +43,7 @@ class MyCustomModel : public Model {
     }
 
     // Get the cost of a control
-    virtual float cost(const State& state, const Control& control, const float time_span) {
+    float cost(const State& state1, const State& state2, const Control& control, const float time_span) override {
 
         /*
             Cost of a state and control
@@ -55,7 +55,7 @@ class MyCustomModel : public Model {
     }
 
     // Get the heuristic of a state
-    virtual float heuristic(const State& state, const State& goal) {
+    float heuristic(const State& state, const State& goal) override {
 
         /*
             Heuristic of a state with respect to the goal
@@ -69,7 +69,7 @@ class MyCustomModel : public Model {
     }
 
     // Determine if node is valid
-    virtual bool is_valid(const State& state) {
+    bool is_valid(const State& state) override {
 
         /*
             Does this state meet the model constraints?
@@ -83,7 +83,7 @@ class MyCustomModel : public Model {
     }
 
     // Determine if state is goal
-    virtual bool is_goal(const State& state, const State& goal) {
+    bool is_goal(const State& state, const State& goal) override {
 
         /*
             Is this state close enough to the goal to end the plan?
@@ -93,7 +93,7 @@ class MyCustomModel : public Model {
     }
 
     // Deconstructor
-    virtual ~MyCustomModel() {}
+    ~MyCustomModel() {}
 
     /// @brief Set the map bounds of the plan
     void set_bounds(float min_x, float max_x, float min_y, float max_y) {
