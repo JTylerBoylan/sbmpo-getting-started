@@ -3,9 +3,11 @@ project(my_project)
 
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
+find_package(sbmpo REQUIRED)
+
 include_directories(include)
 
 # Add the executable
 add_executable(my_executable src/main.cpp)
 target_include_directories(my_executable PUBLIC include)
-target_link_libraries(my_executable PUBLIC sbmpo stdc++ stdc++fs m)
+target_link_libraries(my_executable PUBLIC sbmpo::sbmpo)

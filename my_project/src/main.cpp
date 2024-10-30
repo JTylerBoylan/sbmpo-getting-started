@@ -14,7 +14,7 @@ int main(int argc, char ** argv) {
   params.goal_state = {10, 10};
   params.sample_time = 0.5f;
   params.grid_resolution = {0.25f, 0.25f};
-  params.samples = {
+  params.fixed_samples = {
     {1, 0}, {1, 1}, {0, 1}, {-1, 1},
     {-1, 0}, {-1, -1}, {0, -1}, {1, -1}
   };
