@@ -5,11 +5,12 @@ CMake project template for [Sample Based Model Predictive Optimization (SBMPO) f
 ## Dependencies
 - [CMake 3.15](https://cmake.org/install/) or later
 - [GCC 6.1](https://gcc.gnu.org/) or later
+- [SBMPO](https://github.com/JTylerBoylan/sbmpo)
 
 ## Installation
 To begin, clone this workspace to your directory of choice and pull down the sbmpo submodule using the following commands:
 ```
-git clone --recursive https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
+git clone https://github.com/JTylerBoylan/sbmpo-getting-started my_project_ws
 cd my_project_ws
 ```
 
