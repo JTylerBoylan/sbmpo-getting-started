@@ -18,7 +18,7 @@ cd my_project_ws
 To plan trajectories using the SBMPO algorithm, you must first define a model for your robot.  To do this, you can use the template defined in [`my_project/include/my_project/MyCustomModel.hpp`](https://github.com/JTylerBoylan/sbmpo-getting-started/blob/main/my_project/include/my_project/MyCustomModel.hpp).
 
 The model class comprises of 5 main functions that you'll need to edit:
-- `next_state`: Determines a new state given the previous state, the control, and the time span using your robot kinematics.
+- `next_state`: Determines a new state given the previous state and sample control using your robot kinematics.
 
 - `cost`: Determines the cost of a point given its state and control, for which SBMPO will try to minimize.
 
@@ -40,12 +40,10 @@ In your executable, you will have to set the SBMPO parameters for the run:
 | ---- | ----------- | ---- |
 | `max_iterations` | Maximum branchout iterations | `int` |
 | `max_generations` | Maximum branchout generations | `int` |
-| `sample_time` | Time period per branchout | `float` |
 | `grid_resolution` | Grid resolutions | `std::vector<float>` |
 | `start_state` | Initial state of plan | `sbmpo::State` |
 | `goal_state` | Goal state of plan | `sbmpo::State` |
-| `samples` | List of controls to be sampled in a branchout | `std::vector<sbmpo::Control>` |
-
+| `fixed_samples` | List of controls to be sampled in a branchout | `std::vector<sbmpo::Control>` |
 
 The template will then find the optimal path to the goal for your model and print out the results to the terminal.
 
@@ -134,8 +132,12 @@ int main (int argc, char ** argv) {
     // Path to csv workspace
     std::string csv_folder = "/path/to/my_project_ws/my_project/csv/";
 
+
+    // Create model
+    auto model = std::make_shared<MyCustomModel>();
+
     // Create new benchmarker
-    sbmpo_benchmarks::Benchmark<MyCustomModel> benchmarker(csv_folder);
+    sbmpo_benchmarks::Benchmark benchmarker(csv_folder, model);
 
     // Run benchmark on the model (saves results to csv_folder)
     benchmarker.benchmark();

@@ -12,14 +12,14 @@ int main(int argc, char ** argv) {
   params.max_generations = 100;
   params.start_state = {0, 0};
   params.goal_state = {10, 10};
-  params.sample_time = 0.5f;
   params.grid_resolution = {0.25f, 0.25f};
   params.fixed_samples = {
     {1, 0}, {1, 1}, {0, 1}, {-1, 1},
     {-1, 0}, {-1, -1}, {0, -1}, {1, -1}
   };
   
-  sbmpo::SBMPO<MyCustomModel> planner;
+  auto model = std::make_shared<MyCustomModel>();
+  sbmpo::SBMPO planner(model);
   planner.run(params);
 
   sbmpo_io::print_parameters(params);

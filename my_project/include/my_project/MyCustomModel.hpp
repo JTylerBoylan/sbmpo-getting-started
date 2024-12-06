@@ -22,13 +22,14 @@ class MyCustomModel : public Model {
 
     // Constructor
     MyCustomModel() {
+        time_span_ = 0.5f;
         x_bounds_ = {-std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity()};
         y_bounds_ = {-std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity()};
         goal_threshold_ = 0.25f;
     }
 
     // Evaluate a node with a control
-    State next_state(const State &state, const Control& control, const float time_span) override {
+    State next_state(const State &state, const Control& control) override {
 
         /*
             Dynamics of the system
@@ -36,14 +37,14 @@ class MyCustomModel : public Model {
         */
 
        State next_state = state;
-       next_state[X] += control[dXdt] * time_span;
-       next_state[Y] += control[dYdt] * time_span;
+       next_state[X] += control[dXdt] * time_span_;
+       next_state[Y] += control[dYdt] * time_span_;
        return next_state;
 
     }
 
     // Get the cost of a control
-    float cost(const State& state1, const State& state2, const Control& control, const float time_span) override {
+    float cost(const State& state1, const State& state2, const Control& control) override {
 
         /*
             Cost of a state and control
@@ -51,7 +52,7 @@ class MyCustomModel : public Model {
             i.e Distance, Time, Energy
         */
 
-        return sqrtf(control[dXdt]*control[dXdt] + control[dYdt]*control[dYdt])*time_span;
+        return std::sqrt(control[dXdt]*control[dXdt] + control[dYdt]*control[dYdt])*time_span_;
     }
 
     // Get the heuristic of a state
@@ -65,7 +66,7 @@ class MyCustomModel : public Model {
 
         const float dX = goal[X] - state[X];
         const float dY = goal[Y] - state[Y];
-        return sqrtf(dX*dX + dY*dY);
+        return std::sqrt(dX*dX + dY*dY);
     }
 
     // Determine if node is valid
@@ -95,6 +96,11 @@ class MyCustomModel : public Model {
     // Deconstructor
     ~MyCustomModel() {}
 
+    /// @brief Set the time span of the plan
+    void set_time_span(float time_span) {
+        time_span_ = time_span;
+    }
+
     /// @brief Set the map bounds of the plan
     void set_bounds(float min_x, float max_x, float min_y, float max_y) {
         x_bounds_ = {min_x, max_x};
@@ -108,6 +114,7 @@ class MyCustomModel : public Model {
 
     protected:
 
+    float time_span_;
     std::array<float, 2> x_bounds_;
     std::array<float, 2> y_bounds_;
     float goal_threshold_;
